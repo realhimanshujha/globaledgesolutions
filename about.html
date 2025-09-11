@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About Us - Global Edge Solutions</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">  <script src="script.js" defer></script>
+  <meta name="description" content="Learn more about Global Edge Solutions — our mission, values, and courses designed to help you excel in ethical hacking, Python, and IT skills." />
+  <meta name="keywords" content="about Global Edge Solutions, ethical hacking courses, Python training, cybersecurity education, IT skills development" />
+  <meta name="author" content="Global Edge Solutions" />
+</head>
+<body class="about-page">
+  <header>
+    <div class="brand">
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.jpg" alt="GES Logo" />
+          <span>Global Edge Solutions</span>
+        </a>
+      </div>
+    </div>
+    <nav>
+      <div class="hamburger" id="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <ul id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="certificate.html">Certificate Verification</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero animate fade-in">
+    <h2>Empowering You for the Digital Future</h2>
+    <p>Transform your career with cutting-edge training in cybersecurity, programming, and data science.</p>
+    <a href="courses.html"><button class="bounce">Explore Courses</button></a>
+  </section>
+
+  <section class="container animate slide-up">
+    <h2>Our Mission</h2>
+    <p>We aim to make technology education accessible, practical, and career-driven. Our expert instructors and hands-on labs help learners thrive in a tech-driven world.</p>
+  </section>
+
+  <section class="features container animate fade-in">
+    <h2>Why Choose Us</h2>
+    <div class="cards">
+      <div class="card hover-scale">
+        <img src="https://img.icons8.com/ios-filled/50/000000/security-checked.png" alt="Expert Courses Icon">
+        <h3>Expert-Led Courses</h3>
+        <p>Learn from seasoned professionals with real-world experience and mentorship throughout your journey.</p>
+      </div>
+      <div class="card hover-scale">
+        <img src="https://img.icons8.com/ios-filled/50/000000/online-support.png" alt="Hands-on Learning Icon">
+        <h3>Hands-On Labs</h3>
+        <p>Apply your skills through projects, labs, and challenges designed to simulate real-world problems.</p>
+      </div>
+      <div class="card hover-scale">
+        <img src="https://img.icons8.com/ios-filled/50/000000/certificate.png" alt="Certification Icon">
+        <h3>Certification</h3>
+        <p>Earn certificates that are recognized by industry leaders and enhance your job prospects.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats container animate slide-up">
+    <h2>Our Impact</h2>
+    <div class="cards">
+      <div class="card hover-scale">
+        <h3>500+</h3>
+        <p>Students trained</p>
+      </div>
+      <div class="card hover-scale">
+        <h3>50+</h3>
+        <p>Certified instructors</p>
+      </div>
+      <div class="card hover-scale">
+        <h3>100+</h3>
+        <p>Projects completed</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonial container animate fade-in">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-container">
+      <blockquote id="testimonial-text">“GES helped me transition into cybersecurity with confidence. The hands-on approach and expert support made all the difference.”</blockquote>
+      <footer id="testimonial-author">- Rohan M., Security Analyst</footer>
+    </div>
+  </section>
+
+  <footer class="animate fade-in">
+    <p>© 2025 Global Edge Solution. All rights reserved.</p>
+  </footer>
+
+<script>
+  const testimonials = [
+    { text: "GES helped me transition into cybersecurity with confidence. The hands-on approach and expert support made all the difference.", author: "- Rohan M., Security Analyst" },
+    { text: "The courses are well-structured, interactive, and career-oriented. I landed a great job after completing the training.", author: "- Priya S., Data Analyst" },
+    { text: "The instructors are supportive and provide real-world examples that helped me understand complex topics easily.", author: "- Ankit R., Software Developer" }
+  ];
+  let index = 0;
+  const textElem = document.getElementById("testimonial-text");
+  const authorElem = document.getElementById("testimonial-author");
+
+  setInterval(() => {
+    // Fade out
+    textElem.classList.add("fade-out");
+    authorElem.classList.add("fade-out");
+
+    setTimeout(() => {
+      // Update text after fade out
+      index = (index + 1) % testimonials.length;
+      textElem.textContent = testimonials[index].text;
+      authorElem.textContent = testimonials[index].author;
+
+      // Fade in
+      textElem.classList.remove("fade-out");
+      textElem.classList.add("fade-in");
+
+      authorElem.classList.remove("fade-out");
+      authorElem.classList.add("fade-in");
+
+      setTimeout(() => {
+        // Clean up fade-in class
+        textElem.classList.remove("fade-in");
+        authorElem.classList.remove("fade-in");
+      }, 1000); // Match this duration with CSS
+    }, 500); // Time before switching
+  }, 5000);
+</script>
+
+
+</body>
+</html>
