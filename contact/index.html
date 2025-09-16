@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact Us - Global Edge Solutions</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <script src="/script/script.js" defer></script>
+  <meta name="description" content="Get in touch with Global Edge Solutions for support, course inquiries, certifications, or general questions. We're here to help you excel!" />
+  <meta name="keywords" content="contact GES, ask questions, support, courses, certifications, technology training" />
+  <meta name="author" content="Global Edge Solutions" />
+</head>
+<body class="contact-page">
+  <header>
+    <div class="brand">
+      <div class="logo">
+        <a href="/">
+          <img src="/logo.jpg" alt="GES Logo" />
+          <span>Global Edge Solutions</span>
+        </a>
+      </div>
+    </div>
+    <nav>
+      <div class="hamburger" id="hamburger">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <ul id="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/courses/">Courses</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/certificate/">Certificate Verification</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero animate fade-in">
+    <h2>Contact Us</h2>
+    <p>We're here to help! Please fill out the form and let us know how we can assist you.</p>
+  </section>
+
+  <section class="contact-form container animate slide-up">
+    <form id="contactForm">
+  <div class="form-row">
+    <input type="text" id="name" name="name" placeholder="Your Name" required />
+  </div>
+  <div class="form-row">
+    <input type="email" id="email" name="email" placeholder="Your Email" required />
+  </div>
+  <div class="form-row">
+    <select id="subject" name="subject" required>
+      <option value="" disabled selected>Select Subject</option>
+      <option value="general">General Enquiry</option>
+      <option value="services">Services Enquiry</option>
+      <option value="course">Course Details</option>
+      <option value="certification">Certification Verification</option>
+      <option value="support">Technical Support</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+  </div>
+
+  <!-- Human verification CAPTCHA -->
+  <div class="form-row captcha-container">
+    <label for="captchaAnswer" id="captchaLabel"></label>
+    <input type="text" id="captchaAnswer" placeholder="Your answer" required />
+  </div>
+
+  <button type="submit" class="bounce">Send Message</button>
+  <p id="form-result" style="opacity: 0; text-align: center; margin-top: 10px;"></p>
+</form>
+
+  </section>
+
+  <footer class="animate fade-in">
+    <p>© 2025 Global Edge Solutions. All rights reserved.</p>
+  </footer>
+</body>
+</html>
