@@ -4,26 +4,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultVerify = document.getElementById("result");
 
   if (formVerify && resultVerify) {
-    formVerify.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const id = document.getElementById("certificateId").value.trim();
+  formVerify.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const id = document.getElementById("certificateId").value.trim();
+    resultVerify.style.opacity = 0;
 
-      const validCertificates = ["GES1001", "GES1002", "GES1003"];
+    try {
+      const response = await fetch(`https://script.google.com/macros/s/AKfycby-MDxEsq3aFdYKZlZHph2lV0Yk_6MnfiRFs7Bv5ck5c2Rze9t8M5ZvbOtFHVShulcAGA/exec?id=${encodeURIComponent(id)}`);
+      const data = await response.json();
 
-      resultVerify.style.opacity = 0;
-
-      if (validCertificates.includes(id)) {
+      if (data.valid) {
         resultVerify.style.color = "green";
         resultVerify.textContent = "Certificate is VALID ✅";
       } else {
         resultVerify.style.color = "red";
         resultVerify.textContent = "Certificate ID is INVALID ❌";
       }
+    } catch (error) {
+      resultVerify.style.color = "red";
+      resultVerify.textContent = "Error verifying certificate. Please try again.";
+      console.error("Certificate verification error:", error);
+    }
 
-      fadeIn(resultVerify);
-      formVerify.reset();
-    });
-  }
+    fadeIn(resultVerify);
+    formVerify.reset();
+  });
+}
+
 
   function fadeIn(element) {
     let op = 0;
@@ -140,3 +147,13 @@ document.getElementById("captchaLabel").textContent = selected.question;
   window.addEventListener("scroll", animateOnScroll);
   window.addEventListener("load", animateOnScroll);
 });
+
+// Auto-select subject if coming from services page
+const urlParams = new URLSearchParams(window.location.search);
+const serviceParam = urlParams.get('service');
+if (serviceParam === 'services') {
+  const subjectSelect = document.getElementById("subject");
+  if (subjectSelect) {
+    subjectSelect.value = "services"; // Assuming "Course Details" is the option for service inquiries
+  }
+}
