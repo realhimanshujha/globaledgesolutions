@@ -6,6 +6,8 @@
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 
+
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -211,6 +213,10 @@ nav a:hover {
   margin-bottom: 20px;
 }
 
+.home-page .container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 .home-page .container p {
   text-align: center;
   font-size: 1.1rem;
@@ -371,6 +377,74 @@ header, footer {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+
+/* Contact Section Styling */
+.contact-section {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.contact-section .contact-info {
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-section .contact-info h3 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+.contact-section .contact-info p {
+  margin: 5px 0;
+}
+
+.contact-section .contact-info a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.contact-section .contact-info a:hover {
+  text-decoration: underline;
+}
+
+/* Map Styling */
+.contact-section .map-container {
+  width: 100%;
+  margin: 0;
+}
+
+.contact-section .map-container iframe {
+  width: 100%;
+  height: 300px;
+  border: 0;
+} 
+
+/* Animations */
+.animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate.slide-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Trigger animation when in viewport */
+.contact-section.visible .animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -501,18 +575,10 @@ textarea:focus {
 }
 
 /* Staggered animations for cards */
-.cards .card:nth-child(1) {
-  transition-delay: 0.2s;
+.cards .card {
+  transition-delay: 0s !important;
 }
-.cards .card:nth-child(2) {
-  transition-delay: 0.4s;
-}
-.cards .card:nth-child(3) {
-  transition-delay: 0.6s;
-}
-.cards .card:nth-child(4) {
-  transition-delay: 0.8s;
-}
+
 
 /* Form Result Message */
 #form-result {
@@ -583,4 +649,49 @@ textarea:focus {
   outline: none;
 }
 
+.contact-us-section {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* .contact-box {
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+} */
+/* 
+.contact-box h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: var(--primary);
+} */
+
+.contact-box .contact-info p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.contact-box .contact-info a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.contact-box .contact-info a:hover {
+  text-decoration: underline;
+}
+
+
+.map-container iframe {
+  width: 100%;
+  height: 450px; /* or adjust as needed */
+  border: 0;
+}
 
