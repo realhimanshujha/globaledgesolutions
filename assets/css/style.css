@@ -1,3 +1,4 @@
+
 /*-----------------------------------*\
   #style.css
 \*-----------------------------------*/
@@ -113,7 +114,7 @@ a {
   color: inherit;
 }
 
-a,
+/* a,
 img,
 span,
 time,
@@ -121,7 +122,17 @@ label,
 input,
 button,
 textarea,
-ion-icon { display: block; }
+ion-icon { display: block; } */
+
+a { display: inline; }
+img,
+button,
+input,
+textarea,
+ion-icon {
+  display: block;
+}
+
 
 img { height: auto; }
 
@@ -852,6 +863,71 @@ textarea.input-field {
  * responsive for larger than 768px screen
  */
 
+
+/* FIX contact cards on small screens */
+@media (max-width: 768px) {
+
+  .contact-list {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+  .contact-card .card-link,
+  .contact-card p {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+  }
+
+  .contact-card {
+    align-items: center;
+    text-align: center;
+  }
+
+
+
+  /* Keep layout horizontal */
+  .call-center {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  /* Center ONLY the text */
+  .call-center .card-content {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Keep icon on the left */
+  .call-center .card-icon {
+    margin-right: -120px;
+  }
+
+
+@media (max-width: 768px) {
+
+  .contact-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-card .card-icon {
+    margin: 0 0 10px 0;
+  }
+
+  .contact-card .card-content {
+    text-align: center;
+  }
+
+}
+
+
+
+
+
 @media (min-width: 768px) {
 
   /**
@@ -1255,5 +1331,112 @@ textarea.input-field {
   .contact-card { gap: 20px; }
 
   .contact-card .card-icon { padding: 15px; }
+
+}
+
+
+/* iPhone text fix for contact cards */
+
+.contact-card .card-link {
+  display: inline;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+
+/*-----------------------------------*\
+  #CONTACT
+\*-----------------------------------*/
+
+.contact {
+  background-color: var(--white-2);
+}
+
+.contact .section-text {
+  margin-block: 5px 35px;
+}
+
+/* CONTACT FORM */
+.contact-form {
+  background-color: var(--white-1);
+  padding: 20px;
+  border-radius: var(--radius-2);
+  margin-block-end: 40px;
+  box-shadow: var(--shadow-1);
+}
+
+/* CONTACT GRID */
+.contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+/* CARD */
+.contact-card {
+  background-color: var(--white-1);
+  padding: 25px;
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ICON */
+.contact-card .card-icon {
+  background-color: var(--cultured-2);
+  color: var(--red-crayola);
+  font-size: 28px;
+  padding: 15px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* CONTENT */
+.contact-card .card-content {
+  flex: 1;
+  text-align: center;
+}
+
+.contact-card .card-title {
+  margin-bottom: 8px;
+}
+
+/* LINKS & TEXT */
+.contact-card .card-link,
+.contact-card .card-address {
+  display: block;
+  font-size: var(--fs-6);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+/* HOVER */
+.contact-card:hover .card-icon {
+  background-color: var(--red-crayola);
+  color: var(--white-1);
+}
+
+/*-----------------------------------*\
+  #MOBILE FIX
+\*-----------------------------------*/
+
+@media (max-width: 768px) {
+
+  .contact-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .contact-card .card-icon {
+    margin-bottom: 10px;
+  }
 
 }
