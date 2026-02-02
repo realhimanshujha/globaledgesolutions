@@ -778,11 +778,17 @@ textarea.input-field {
  */
 
 @media (max-width: 575px) {
-  .card-link,
+  .card-link {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    display: inline-block;
+    max-width: 100%;
+    font-size: 14px;
+  }
   .card-address {
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: anywhere !important;
+    white-space: normal;
+    word-break: normal;
     line-height: 1.6;
   }
   
