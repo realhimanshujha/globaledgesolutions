@@ -778,17 +778,16 @@ textarea.input-field {
  */
 
 @media (max-width: 575px) {
+  .card-link,
+  .card-address {
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.6;
+  }
+  
   .contact-card {
     align-items: flex-start;
-    gap: 12px;
-  }
-
-  .contact-card .card-icon {
-    margin-top: 2px;
-  }
-
-  .contact-card .card-content {
-    text-align: left;
   }
 }
 
