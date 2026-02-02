@@ -4,7 +4,7 @@
 \*-----------------------------------*/
 
 /**
- * copyright 2022 codewithsadee
+ * copyright 2025 GlobalEdgeSolutions
  */
 
 
@@ -313,6 +313,7 @@ body {
   max-height: 0;
   visibility: hidden;
   overflow: hidden;
+  z-index: 1000;
 }
 
 .navbar.active {
@@ -1046,7 +1047,11 @@ textarea.input-field {
    * HEADER
    */
 
-  .nav-toggle-btn { display: none; }
+  .nav-toggle-btn { 
+    display: none;
+    position: relative;
+    z-index: 1001; 
+  }
 
   .navbar,
   .navbar.active { all: unset; }
