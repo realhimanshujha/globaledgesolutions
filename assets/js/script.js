@@ -32,12 +32,22 @@ const toggleNavbar = function () {
 addEventOnElem(navToggler, "click", toggleNavbar);
 
 const closeNavbar = function () {
-  navbar.classList.remove("active");
+  navbar.classList.remove("active");``
   navToggler.classList.remove("active");
 }
 
 addEventOnElem(navbarLinks, "click", closeNavbar);
 
+document.addEventListener("click", function (e) {
+  if (
+    navbar.classList.contains("active") &&
+    !navbar.contains(e.target) &&
+    !navToggler.contains(e.target)
+  ) {
+    navbar.classList.remove("active");
+    navToggler.classList.remove("active");
+  }
+});
 
 
 /**
