@@ -777,6 +777,21 @@ textarea.input-field {
  * responsive for larger than 575px screen
  */
 
+@media (max-width: 575px) {
+  .contact-card {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .contact-card .card-icon {
+    margin-top: 2px;
+  }
+
+  .contact-card .card-content {
+    text-align: left;
+  }
+}
+
 @media (min-width: 575px) {
 
   /**
