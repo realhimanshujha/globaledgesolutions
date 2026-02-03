@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Global Edge Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #1a1a1a, #000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      /* Disable text selection across the site */
+      -webkit-user-select: none; /* Chrome, Safari */
+      -moz-user-select: none;    /* Firefox */
+      -ms-user-select: none;     /* IE/Edge */
+      user-select: none;         /* Standard */
+    }
+
+    /* Background glow */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,106,0,0.25), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,152,0,0.2), transparent 40%);
+      z-index: -1;
+    }
+
+    .login-wrapper {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    .login-card {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+
+    /* Left branding */
+    .login-brand {
+      padding: 50px;
+      background: linear-gradient(160deg, rgba(255,106,0,0.15), rgba(0,0,0,0.6));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-brand img {
+      width: 56px;
+      margin-bottom: 20px;
+    }
+
+    .login-brand h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .login-brand p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #ddd;
+      max-width: 320px;
+    }
+
+    /* Right form */
+    .login-form {
+      background: #fff;
+      color: #111;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-form h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .login-form span {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .login-form input:focus {
+      outline: none;
+      border-color: #ff6a00;
+      box-shadow: 0 0 0 3px rgba(255,106,0,0,0.15);
+    }
+
+    .login-form button {
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(45deg, #ff6a00, #ff9800);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .login-form button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(255,106,0,0,0.35);
+    }
+
+    .error {
+      display: none;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #d32f2f;
+    }
+
+    @media (max-width: 900px) {
+      .login-card {
+        grid-template-columns: 1fr;
+      }
+      .login-brand {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <!-- LEFT BRAND -->
+    <div class="login-brand">
+      <img src="./logo.png" alt="Global Edge Solutions">
+      <h1>Global Edge Solutions</h1>
+      <p>
+        Internal dashboard for employees, Interns & administrators.
+        Track leads, manage work, and grow digitally.
+      </p>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <div class="login-form">
+      <h2>Welcome Back</h2>
+      <span>Login to continue to your dashboard</span>
+
+      <input type="text" id="userId" placeholder="User ID">
+      <input type="password" id="password" placeholder="Password">
+
+      <button onclick="login()">Sign In</button>
+
+      <div class="error" id="err">Invalid login credentials</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbyTGdD690kzQX2LYO2QpHtlwOliA5wPN7KQuvjLKCW_-VUWZi5aEkm3jY8uVpBL5ATc/exec";
+
+function login() {
+  const userId = document.getElementById("userId").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const err = document.getElementById("err");
+
+  err.style.display = "none";
+
+  const formData = new URLSearchParams();
+  formData.append("userId", userId);
+  formData.append("password", password);
+
+  fetch(API_URL, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) {
+      err.innerText = "Invalid User ID or Password";
+      err.style.display = "block";
+      return;
+    }
+
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("userId", data.userId);
+    localStorage.setItem("userRole", data.role);
+
+    if (data.role === "admin") {
+      location.href = "admin-dashboard.html";
+    } else {
+      location.href = "intern-portal.html";
+    }
+  })
+  .catch(() => {
+    err.innerText = "Login failed. Try again.";
+    err.style.display = "block";
+  });
+}
+</script>
+
+
+
+
+</body>
+</html>
