@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intern Dashboard | Global Edge Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top left, #1a1a1a, #000);
+      color: #fff;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,106,0,0.18), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255,152,0,0.15), transparent 40%);
+      z-index: -1;
+    }
+
+    /* Header */
+    .app-header {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand img {
+      height: 36px;
+    }
+
+    .brand span {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      background: linear-gradient(45deg, #ff6a00, #ff9800);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .app-shell {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255,255,255,0.92);
+      color: #111;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 30px;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    }
+
+    /* Profile */
+    .profile-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .profile-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff6a00, #ff9800);
+      color: #fff;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .badge {
+      background: #fff3e0;
+      color: #ff6a00;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .muted {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* FORM LAYOUT – FINAL FIX */
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .form-grid > input,
+    .form-grid > select {
+      height: 52px;
+      margin: 0 !important;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #ff6a00;
+      box-shadow: 0 0 0 3px rgba(255,106,0,0.15);
+    }
+
+    .btn {
+      width: 100%;
+      margin-top: 20px;
+      background: linear-gradient(45deg, #ff6a00, #ff9800);
+      border: none;
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .status-text {
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .brand span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<script>
+  if (
+    localStorage.getItem("loggedIn") !== "true" ||
+    localStorage.getItem("userRole") !== "intern"
+  ) {
+    location.href = "login.html";
+  }
+</script>
+
+<header class="app-header">
+  <div class="brand">
+    <img src="./logo.png" alt="Global Edge Solutions">
+    <span>Global Edge Solutions</span>
+  </div>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</header>
+
+<div class="app-shell">
+
+  <!-- Profile -->
+  <div class="card profile-card">
+    <div class="profile-left">
+      <div class="avatar" id="avatarText">IN</div>
+      <div>
+        <h3 id="internNameTitle">Welcome 👋</h3>
+        <p class="muted">Intern ID: <b id="iid"></b></p>
+      </div>
+    </div>
+
+    <div>
+      <span class="badge">Reporting Manager</span>
+      <p><b>Mr Ravi Kumar</b></p>
+    </div>
+  </div>
+
+  <!-- Submit Lead -->
+  <div class="card">
+    <h3>🚀 Submit New Lead</h3>
+    <p class="muted">Fill the details carefully. Duplicate leads are blocked.</p>
+
+    <form id="leadForm" onsubmit="return handleSubmit(event)">
+      <input type="hidden" name="intern_id" id="intern_id">
+      <input type="hidden" name="intern_name" id="intern_name">
+      <input type="hidden" name="submitted_at" id="submitted_at">
+
+      <div class="form-grid">
+        <input id="businessName" name="business_name" placeholder="Business Name" required>
+        <input id="contactPerson" name="contact_person" placeholder="Contact Person">
+        <input id="phone" name="phone" placeholder="Phone Number" required>
+        <input id="city" name="city" placeholder="City" required>
+
+        <select id="interest" name="interest_level" required>
+          <option value="">Interest Level</option>
+          <option>Not Interested</option>
+          <option>Call Later</option>
+          <option>Interested</option>
+          <option>Appointment Booked</option>
+        </select>
+      </div>
+
+      <textarea id="notes" name="notes" placeholder="Notes (optional but helpful)"></textarea>
+
+      <button class="btn" id="submitBtn" type="submit">Submit Lead</button>
+      <p id="formStatus" class="status-text"></p>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  const FORMSPREE_URL = "https://formspree.io/f/mzzaonly";
+
+  const internId = localStorage.getItem("userId");
+  const internName = localStorage.getItem("internName") || internId;
+
+  document.getElementById("iid").innerText = internId;
+  document.getElementById("internNameTitle").innerText = `Welcome, ${internName} 👋`;
+  document.getElementById("intern_id").value = internId;
+  document.getElementById("intern_name").value = internName;
+
+  document.getElementById("avatarText").innerText =
+    internName.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+
+  function isDuplicateLead(phone, business, city) {
+    const key = `leads_${internId}`;
+    const leads = JSON.parse(localStorage.getItem(key)) || [];
+    return leads.some(l =>
+      l.phone === phone ||
+      (l.business === business && l.city === city)
+    );
+  }
+
+  function saveLeadLocally(lead) {
+    const key = `leads_${internId}`;
+    const leads = JSON.parse(localStorage.getItem(key)) || [];
+    leads.push(lead);
+    localStorage.setItem(key, JSON.stringify(leads));
+  }
+
+  let isSubmitting = false;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (isSubmitting) return false;
+
+    const business = businessName.value.trim();
+    const phoneVal = phone.value.trim();
+    const cityVal = city.value.trim();
+    const status = document.getElementById("formStatus");
+    const btn = document.getElementById("submitBtn");
+
+    if (isDuplicateLead(phoneVal, business, cityVal)) {
+      status.style.color = "#d32f2f";
+      status.innerText = "Duplicate lead detected.";
+      return false;
+    }
+
+    isSubmitting = true;
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+    status.innerText = "";
+
+    document.getElementById("submitted_at").value =
+      new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+
+    const formData = new FormData(document.getElementById("leadForm"));
+
+    fetch(FORMSPREE_URL, {
+      method: "POST",
+      body: formData,
+      headers: { Accept: "application/json" }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error();
+      saveLeadLocally({ phone: phoneVal, business, city: cityVal });
+      status.style.color = "#2e7d32";
+      status.innerText = "Lead submitted successfully ✅";
+      document.getElementById("leadForm").reset();
+    })
+    .catch(() => {
+      status.style.color = "#d32f2f";
+      status.innerText = "Submission failed.";
+    })
+    .finally(() => {
+      btn.disabled = false;
+      btn.innerText = "Submit Lead";
+      isSubmitting = false;
+    });
+
+    return false;
+  }
+
+  function logout() {
+    localStorage.clear();
+    location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
