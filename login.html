@@ -185,46 +185,33 @@
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyTGdD690kzQX2LYO2QpHtlwOliA5wPN7KQuvjLKCW_-VUWZi5aEkm3jY8uVpBL5ATc/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycby3v2cjjb8ROX3ktoRp5ifP6F6rFl71FIaSXvZy8S_uomLCuS9zzf4rfHawHwGOuw9B/exec";
 
 function login() {
-  const userId = document.getElementById("userId").value.trim();
+  const id = document.getElementById("userId").value.trim();
   const password = document.getElementById("password").value.trim();
-  const err = document.getElementById("err");
 
-  err.style.display = "none";
+  fetch(`${API_URL}?action=login&id=${id}&password=${password}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success) {
+        alert("Invalid login");
+        return;
+      }
 
-  const formData = new URLSearchParams();
-  formData.append("userId", userId);
-  formData.append("password", password);
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("userId", data.userId);
+      localStorage.setItem("internName", data.name);
+      localStorage.setItem("userRole", data.role);
 
-  fetch(API_URL, {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (!data.success) {
-      err.innerText = "Invalid User ID or Password";
-      err.style.display = "block";
-      return;
-    }
-
-    localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("userId", data.userId);
-    localStorage.setItem("userRole", data.role);
-
-    if (data.role === "admin") {
-      location.href = "admin-dashboard.html";
-    } else {
-      location.href = "intern-portal.html";
-    }
-  })
-  .catch(() => {
-    err.innerText = "Login failed. Try again.";
-    err.style.display = "block";
-  });
+      if (data.role === "admin") {
+        location.href = "admin-dashboard.html";
+      } else {
+        location.href = "intern-portal.html";
+      }
+    });
 }
+
 </script>
 
 
