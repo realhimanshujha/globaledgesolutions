@@ -885,3 +885,246 @@ function closeLegal() {
 
 </html>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard | Global Edge Solutions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(circle at top left, #1a1a1a, #000);
+  color: #fff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,106,0,0.18), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,152,0,0.15), transparent 40%);
+  z-index: -1;
+}
+
+/* HEADER */
+.header {
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(14px);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand img { height: 36px; }
+.brand span { font-weight: 600; }
+
+.logout {
+  background: linear-gradient(45deg,#ff6a00,#ff9800);
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* LAYOUT */
+.wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.92);
+  color: #111;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+}
+
+/* INTERN LIST */
+.intern {
+  padding: 14px;
+  background: #f6f7fb;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.intern:hover {
+  background: #ffe6cc;
+}
+
+/* PROFILE */
+.profile {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(45deg,#ff6a00,#ff9800);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.badge {
+  background: #fff3e0;
+  color: #ff6a00;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.muted {
+  color: #555;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+/* 🔐 ADMIN PROTECTION */
+if (
+  localStorage.getItem("loggedIn") !== "true" ||
+  localStorage.getItem("userRole") !== "admin"
+) {
+  location.href = "login.html";
+}
+</script>
+
+<header class="header">
+  <div class="brand">
+    <img src="./logo.png" alt="Global Edge Solutions">
+    <span>Global Edge Solutions</span>
+  </div>
+  <button class="logout" onclick="logout()">Logout</button>
+</header>
+
+
+<div class="container">
+
+  <!-- ADMIN CONTROL PANEL -->
+  <div class="card hero">
+    <h1>Admin Control Panel</h1>
+    <p>Global Edge Solutions · Intern Lead System</p>
+
+    <div class="actions">
+      <div class="action primary" onclick="openLeads()">
+        📄 View All Leads
+        <span>Open Formspree submissions</span>
+      </div>
+
+      <div class="action">
+        👥 Interns
+        <span>Managed via login system</span>
+      </div>
+
+      <div class="action">
+        📅 Appointments
+        <span>Tracked inside lead notes</span>
+      </div>
+
+      <div class="action">
+        ⬇️ Export Data
+        <span>CSV export via Formspree</span>
+      </div>
+    </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- INTERN LIST -->
+  <div class="card">
+    <h3>👥 Interns</h3>
+    <div id="internList">Loading interns…</div>
+  </div>
+
+  <!-- INTERN DETAILS -->
+  <div class="card">
+    <h3>📄 Intern Profile</h3>
+
+    <div class="profile">
+      <div class="avatar" id="avatar">--</div>
+      <div>
+        <h2 id="name">Select an intern</h2>
+        <p class="muted">ID: <span id="iid">—</span></p>
+        <span class="badge" id="status">—</span>
+      </div>
+    </div>
+
+    <hr style="margin:20px 0">
+
+    <p><b>Date of Birth:</b> <span id="dob">—</span></p>
+    <p><b>Phone:</b> <span id="phone">—</span></p>
+  </div>
+
+</div>
+
+
+</body>
+</html>
+
+
