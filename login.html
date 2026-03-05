@@ -185,7 +185,7 @@
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycby3v2cjjb8ROX3ktoRp5ifP6F6rFl71FIaSXvZy8S_uomLCuS9zzf4rfHawHwGOuw9B/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbz9akTGH03nASqw5_DrZKuCtdDKfAHCoYxMiWrungPs2zbJbgteItOXXEfeVr36zo_d/exec";
 
 function login() {
   const id = document.getElementById("userId").value.trim();
@@ -203,6 +203,7 @@ function login() {
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("internName", data.name);
       localStorage.setItem("userRole", data.role);
+      localStorage.setItem("joinDate", data.joinDate);
 
       if (data.role === "admin") {
         location.href = "admin-dashboard.html";
