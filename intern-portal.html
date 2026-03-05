@@ -165,20 +165,143 @@
     }
 
     .btn {
-      width: 100%;
-      margin-top: 20px;
-      background: linear-gradient(45deg, #ff6a00, #ff9800);
-      border: none;
-      color: #fff;
-      padding: 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 15px;
+    width: 100%;
+    margin-top: 20px;
+    background: linear-gradient(45deg, #ff6a00, #ff9800);
+    border: none;
+    color: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
     }
+
+    .task-toggle-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: linear-gradient(45deg, #ff6a00, #ff9800);
+    border: none;
+    color: #fff;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: center;
+   }
 
     .status-text {
       margin-top: 12px;
       font-size: 14px;
+    }
+
+    .toggle-btn{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    background:#f3f3f3;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    }
+
+    .task-list{
+    display:none;
+    margin-top:10px;
+    }
+
+    .today-card{
+    padding:20px;
+    border:2px solid #ff6a00;
+    border-radius:12px;
+    background:#fff7f0;
+    }
+
+    .progress-box{
+    margin-bottom:20px;
+    }
+
+    .progress-header{
+    font-weight:600;
+    margin-bottom:6px;
+    }
+
+    .progress-bar{
+    width:100%;
+    height:10px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+    }
+
+    #progressFill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(45deg,#ff6a00,#ff9800);
+    transition:width .4s;
+    }
+
+    .timeline-wrapper{
+    margin-top:15px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    padding-bottom:10px;
+    }
+
+    .timeline-wrapper::-webkit-scrollbar{
+    height:6px;
+    }
+
+    .timeline-wrapper::-webkit-scrollbar-track{
+    background:#eee;
+    border-radius:10px;
+    }
+
+    .timeline-wrapper::-webkit-scrollbar-thumb{
+    background:#ff6a00;
+    border-radius:10px;
+    }
+
+    #timeline{
+    display:flex;
+    gap:8px;
+    min-width:600px;
+    }
+
+    .day-circle{
+    min-width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:600;
+    color:#333;
+    flex-shrink:0;
+    cursor:pointer;
+    }
+
+    .day-circle:hover{
+    transform:scale(1.1);
+    transition:0.2s;
+    cursor:pointer;
+    }
+
+    .day-complete{
+    background:#ff6a00;
+    color:white;
+    }
+
+    .day-today{
+    background:#2e7d32;
+    color:white;
+    }
+
+    .day-locked{
+    background:#ffe0cc;
+    color:#ff6a00;
     }
 
     @media (max-width: 900px) {
@@ -263,96 +386,369 @@
       <p id="formStatus" class="status-text"></p>
     </form>
   </div>
+  
+  <div class="card">
 
+  <h3>📚 Daily Learning</h3>
+  <p class="muted">Focus on today's task.</p>
+  <div class="timeline-wrapper">
+
+  <div id="timeline"></div>
+
+  </div>
+
+  <div class="progress-box">
+
+  <div class="progress-header">
+  <span id="progressText">Day 0 / 0</span>
+  </div>
+
+  <div class="progress-bar">
+  <div id="progressFill"></div>
+  </div>
+
+  </div>
+
+  <div id="todayTask"></div>
+
+  <button class="task-toggle-btn" onclick="toggleSection('prevTasks')">
+  📂 Previous Tasks
+  </button>
+
+  <div id="prevTasks" class="task-list"></div>
+
+  <button class="task-toggle-btn" onclick="toggleSection('futureTasks')">
+  🔒 Future Tasks
+  </button>
+
+  <div id="futureTasks" class="task-list"></div>
+
+  </div>
 </div>
 
 <script>
-  const FORMSPREE_URL = "https://formspree.io/f/mzzaonly";
 
-  const internId = localStorage.getItem("userId");
-  const internName = localStorage.getItem("internName") || internId;
+const FORMSPREE_URL = "https://formspree.io/f/mzzaonly";
 
-  document.getElementById("iid").innerText = internId;
-  document.getElementById("internNameTitle").innerText = `Welcome, ${internName} 👋`;
-  document.getElementById("intern_id").value = internId;
-  document.getElementById("intern_name").value = internName;
+const internId = localStorage.getItem("userId");
+const internName = localStorage.getItem("internName") || internId;
 
-  document.getElementById("avatarText").innerText =
-    internName.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+document.getElementById("iid").innerText = internId;
+document.getElementById("internNameTitle").innerText = `Welcome, ${internName} 👋`;
+document.getElementById("intern_id").value = internId;
+document.getElementById("intern_name").value = internName;
 
-  function isDuplicateLead(phone, business, city) {
-    const key = `leads_${internId}`;
-    const leads = JSON.parse(localStorage.getItem(key)) || [];
-    return leads.some(l =>
-      l.phone === phone ||
-      (l.business === business && l.city === city)
-    );
-  }
+document.getElementById("avatarText").innerText =
+internName.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
 
-  function saveLeadLocally(lead) {
-    const key = `leads_${internId}`;
-    const leads = JSON.parse(localStorage.getItem(key)) || [];
-    leads.push(lead);
-    localStorage.setItem(key, JSON.stringify(leads));
-  }
 
-  let isSubmitting = false;
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (isSubmitting) return false;
+/* ---------------- LEAD SYSTEM ---------------- */
 
-    const business = businessName.value.trim();
-    const phoneVal = phone.value.trim();
-    const cityVal = city.value.trim();
-    const status = document.getElementById("formStatus");
-    const btn = document.getElementById("submitBtn");
+function isDuplicateLead(phone, business, city){
 
-    if (isDuplicateLead(phoneVal, business, cityVal)) {
-      status.style.color = "#d32f2f";
-      status.innerText = "Duplicate lead detected.";
-      return false;
-    }
+const key=`leads_${internId}`;
+const leads=JSON.parse(localStorage.getItem(key))||[];
 
-    isSubmitting = true;
-    btn.disabled = true;
-    btn.innerText = "Submitting...";
-    status.innerText = "";
+return leads.some(l =>
+l.phone===phone ||
+(l.business===business && l.city===city)
+);
 
-    document.getElementById("submitted_at").value =
-      new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+}
 
-    const formData = new FormData(document.getElementById("leadForm"));
+function saveLeadLocally(lead){
 
-    fetch(FORMSPREE_URL, {
-      method: "POST",
-      body: formData,
-      headers: { Accept: "application/json" }
-    })
-    .then(res => {
-      if (!res.ok) throw new Error();
-      saveLeadLocally({ phone: phoneVal, business, city: cityVal });
-      status.style.color = "#2e7d32";
-      status.innerText = "Lead submitted successfully ✅";
-      document.getElementById("leadForm").reset();
-    })
-    .catch(() => {
-      status.style.color = "#d32f2f";
-      status.innerText = "Submission failed.";
-    })
-    .finally(() => {
-      btn.disabled = false;
-      btn.innerText = "Submit Lead";
-      isSubmitting = false;
-    });
+const key=`leads_${internId}`;
+const leads=JSON.parse(localStorage.getItem(key))||[];
 
-    return false;
-  }
+leads.push(lead);
 
-  function logout() {
-    localStorage.clear();
-    location.href = "login.html";
-  }
+localStorage.setItem(key,JSON.stringify(leads));
+
+}
+
+let isSubmitting=false;
+
+function handleSubmit(event){
+
+event.preventDefault();
+
+if(isSubmitting) return false;
+
+const business=businessName.value.trim();
+const phoneVal=phone.value.trim();
+const cityVal=city.value.trim();
+
+const status=document.getElementById("formStatus");
+const btn=document.getElementById("submitBtn");
+
+if(isDuplicateLead(phoneVal,business,cityVal)){
+
+status.style.color="#d32f2f";
+status.innerText="Duplicate lead detected.";
+return false;
+
+}
+
+isSubmitting=true;
+
+btn.disabled=true;
+btn.innerText="Submitting...";
+
+status.innerText="";
+
+document.getElementById("submitted_at").value=
+new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
+
+const formData=new FormData(document.getElementById("leadForm"));
+
+fetch(FORMSPREE_URL,{
+method:"POST",
+body:formData,
+headers:{Accept:"application/json"}
+})
+
+.then(res=>{
+
+if(!res.ok) throw new Error();
+
+saveLeadLocally({phone:phoneVal,business,city:cityVal});
+
+status.style.color="#2e7d32";
+status.innerText="Lead submitted successfully ✅";
+
+document.getElementById("leadForm").reset();
+
+})
+
+.catch(()=>{
+
+status.style.color="#d32f2f";
+status.innerText="Submission failed.";
+
+})
+
+.finally(()=>{
+
+btn.disabled=false;
+btn.innerText="Submit Lead";
+
+isSubmitting=false;
+
+});
+
+return false;
+
+}
+
+function logout(){
+
+localStorage.clear();
+location.href="login.html";
+
+}
+
+
+
+/* ---------------- INTERN DAY CALCULATION ---------------- */
+
+function getInternDay(){
+
+const joinDateString = localStorage.getItem("joinDate");
+
+if(!joinDateString){
+return 0;
+}
+
+const joinDate = new Date(joinDateString);
+joinDate.setHours(0,0,0,0);
+
+const today = new Date();
+today.setHours(0,0,0,0);
+
+if(today < joinDate){
+return 0;
+}
+
+const diff = today - joinDate;
+
+return Math.floor(diff / (1000*60*60*24)) + 1;
+
+}
+
+
+
+/* ---------------- TASK SYSTEM ---------------- */
+
+const TASK_API=
+"https://script.google.com/macros/s/AKfycbzRIWNtoQ_ZDw8RHpeU-cWikpmOD-OxQdvgr4xcaM14ozqtm3PVfMC4NAeHClTTVUYk/exec?action=getTasks";
+
+loadTasks();
+
+
+
+function loadTasks(){
+
+fetch(TASK_API)
+
+.then(res=>res.json())
+
+.then(data=>{
+
+const internDay=getInternDay();
+const totalDays=data.length;
+
+let completedDays=Math.min(internDay,totalDays);
+
+const percent=Math.round((completedDays/totalDays)*100);
+
+
+
+/* ---------- TIMELINE ---------- */
+
+const timeline=document.getElementById("timeline");
+timeline.innerHTML="";
+
+data.forEach((task,index)=>{
+
+const taskDay=index+1;
+
+let className="day-circle";
+
+if(taskDay < internDay){
+
+className+=" day-complete";
+
+}
+
+else if(taskDay === internDay){
+
+className+=" day-today";
+
+}
+
+else{
+
+className+=" day-locked";
+
+}
+
+const unlocked = taskDay <= internDay && internDay > 0;
+
+timeline.innerHTML += `
+<div class="${className}" 
+     ${unlocked ? `onclick="openTask('${task.pdf}')"` : ""}>
+${taskDay}
+</div>
+`;
+
+});
+
+
+
+/* ---------- PROGRESS ---------- */
+
+document.getElementById("progressText").innerText=
+`Day ${completedDays} / ${totalDays}`;
+
+document.getElementById("progressFill").style.width=
+percent+"%";
+
+
+
+/* ---------- TASK LIST ---------- */
+
+const todayContainer=document.getElementById("todayTask");
+const prevContainer=document.getElementById("prevTasks");
+const futureContainer=document.getElementById("futureTasks");
+
+todayContainer.innerHTML="";
+prevContainer.innerHTML="";
+futureContainer.innerHTML="";
+
+let futureCount=0;
+
+data.forEach((task,index)=>{
+
+const taskDay=index+1;
+
+const unlocked=(taskDay<=internDay && internDay>0);
+
+const html=`
+<div class="task-box">
+
+<h4>Day ${taskDay} — ${task.title}</h4>
+
+<p>${task.description}</p>
+
+${unlocked
+? `<br><a href="${task.pdf}" target="_blank">Open PDF</a>`
+: `<br><b>🔒 Locked</b>`
+}
+
+</div>
+`;
+
+if(taskDay===internDay && internDay>0){
+
+todayContainer.innerHTML=`
+<div class="today-card">
+
+<h3>Today's Task</h3>
+
+${html}
+
+</div>
+`;
+
+}
+
+else if(taskDay < internDay){
+
+prevContainer.innerHTML+=html;
+
+}
+
+else{
+
+if(futureCount<2){
+
+futureContainer.innerHTML+=html;
+futureCount++;
+
+}
+
+}
+
+});
+
+});
+
+}
+
+
+
+/* ---------- TOGGLE ---------- */
+
+function toggleSection(id){
+
+const el=document.getElementById(id);
+
+if(el.style.display==="block"){
+el.style.display="none";
+}else{
+el.style.display="block";
+}
+
+}
+
+function openTask(pdf){
+
+window.open(pdf, "_blank");
+
+}
+
 </script>
 
 </body>
