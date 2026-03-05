@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <meta charset="UTF-8">
 <title>Admin Dashboard | Global Edge Solutions</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,13 +60,38 @@ body::before {
 }
 
 /* LAYOUT */
-.wrapper {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
+.wrapper{
+  max-width:1200px;
+  margin:20px auto 50px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:28px;
+}
+
+#internList{
+  max-height:400px;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+/* PAGE CONTAINER */
+.container{
+  max-width:1200px;
+  margin:30px auto 10px auto;
+  padding:0 20px;
+}
+
+/* SECTION SPACING */
+.section{
+  margin-bottom:30px;
+}
+
+/* CARD HEADER */
+.card h3{
+  margin-top:0;
+  margin-bottom:18px;
+  font-size:20px;
 }
 
 /* CARD */
@@ -79,46 +105,59 @@ body::before {
 
 /* INTERN LIST */
 .intern {
-  padding: 14px;
-  background: #f6f7fb;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  padding: 16px;
+  background: #f9fafc;
+  border-radius: 14px;
+  margin-bottom: 12px;
   cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: all .2s ease;
 }
 
 .intern:hover {
-  background: #ffe6cc;
+  background: #fff3e0;
+  border-left: 4px solid #ff6a00;
+  transform: translateX(4px);
 }
 
 /* PROFILE */
 .profile {
   display: flex;
-  gap: 20px;
+  gap: 18px;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .avatar {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: linear-gradient(45deg,#ff6a00,#ff9800);
-  color: #fff;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .badge {
-  background: #fff3e0;
-  color: #ff6a00;
-  padding: 6px 12px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
-  margin-top: 6px;
+  font-weight: 600;
   display: inline-block;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 30px auto 0 auto;
+  padding: 0 20px;
+}
+
 
 .muted {
   color: #555;
@@ -203,6 +242,147 @@ body::before {
   border-radius: 50%;
 }
 
+/* LEAD TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+thead {
+  background: linear-gradient(45deg,#ff6a00,#ff9800);
+  color: #fff;
+}
+
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 14px;
+}
+
+tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background .2s ease;
+}
+
+tbody tr:hover {
+  background: #fff3e0;
+}
+
+.lead-card{
+  background: rgba(255,255,255,0.95);
+  border-radius:20px;
+  padding:26px;
+  box-shadow:0 35px 80px rgba(0,0,0,0.45);
+}
+
+/* DASHBOARD STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:rgba(255,255,255,0.95);
+  color:#111;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.35);
+  text-align:center;
+}
+
+.stat-card span{
+  font-size:13px;
+  color:#777;
+}
+
+.stat-card h2{
+  margin:8px 0 0;
+  font-size:28px;
+  color:#ff6a00;
+}
+
+.stat-card{
+transition:transform .2s ease;
+}
+
+.stat-card:hover{
+transform:translateY(-5px);
+}
+
+.lead-card{
+  max-height:400px;
+  overflow:auto;
+}
+
+tbody tr:hover{
+background:#fff3e0;
+cursor:pointer;
+}
+
+
+/* LEADERBOARD */
+
+.leaderboard{
+margin-bottom:25px;
+}
+
+.leaderboard-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px 14px;
+background:#f9fafc;
+border-radius:10px;
+margin-bottom:8px;
+}
+
+.leaderboard-item span{
+font-weight:600;
+}
+
+.rank{
+color:#ff6a00;
+font-weight:700;
+margin-right:8px;
+}
+
+/* GRAPH POPUP */
+
+.modal{
+display:none;
+position:fixed;
+z-index:1000;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+}
+
+.modal-content{
+background:white;
+margin:8% auto;
+padding:20px;
+border-radius:12px;
+width:700px;
+max-width:90%;
+color:#111;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:12px;
+top:10px;
+cursor:pointer;
+font-size:18px;
+font-weight:bold;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .admin-actions {
@@ -239,45 +419,90 @@ if (
   <button class="logout" onclick="logout()">Logout</button>
 </header>
 
-
 <div class="container">
 
-  <!-- ADMIN CONTROL PANEL -->
-  <div class="admin-hero">
+<button onclick="openGraph()" style="
+margin-bottom:12px;
+padding:8px 14px;
+background:linear-gradient(45deg,#ff6a00,#ff9800);
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+">
+📈 Show Lead Graph
+</button>
 
-    <h1>Admin Control Panel</h1>
-    <p>Global Edge Solutions · Intern Lead System</p>
-
-    <div class="admin-actions">
-
-      <div class="admin-action primary" onclick="openLeads()">
-        <h4>📄 View All Leads</h4>
-        <span>Open Formspree submissions</span>
-      </div>
-
-      <div class="admin-action">
-        <h4>👥 Interns</h4>
-        <span>Managed via login system</span>
-      </div>
-
-      <div class="admin-action">
-        <h4>📅 Appointments</h4>
-        <span>Tracked inside lead notes</span>
-      </div>
-
-      <div class="admin-action">
-        <h4>⬇️ Export Data</h4>
-        <span>CSV export via Formspree</span>
-      </div>
-
-    </div>
-
-    <div class="system-status">
-      <div class="system-dot"></div>
-      Lead system active · Submissions connected to Formspree
-    </div>
-
+<div class="stats">
+  <div class="stat-card">
+    <span>Total Leads</span>
+    <h2 id="totalLeads">0</h2>
   </div>
+
+  <div class="stat-card">
+    <span>Interested</span>
+    <h2 id="interestedCount">0</h2>
+  </div>
+
+  <div class="stat-card">
+    <span>Call Later</span>
+    <h2 id="callLaterCount">0</h2>
+  </div>
+
+  <div class="stat-card">
+    <span>Total Interns</span>
+    <h2 id="internCount">0</h2>
+  </div>
+</div>
+
+<div class="card leaderboard">
+<h3>🏆 Top Interns by Leads</h3>
+
+<div id="leaderboardList">
+Loading leaderboard...
+</div>
+
+</div>
+
+<div class="container section">
+
+  <div class="card lead-card">
+<input 
+id="leadSearch"
+placeholder="Search leads..."
+style="
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+border:1px solid #ddd;
+outline:none;
+">
+<h3>📄 Lead Database</h3>
+
+<table style="width:100%; border-collapse:collapse;" border="1">
+
+<thead>
+<tr>
+<th>Intern</th>
+<th>Business</th>
+<th>Phone</th>
+<th>City</th>
+<th>Interest</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="leadTable">
+<tr>
+<td colspan="6">Loading leads...</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 
@@ -312,20 +537,133 @@ if (
 
 <script>
 
-function openLeads() {
-  window.open(
-    "https://formspree.io/forms/mzzaonly/submissions",
-    "_blank"
-  );
+/* 🔗 APPS SCRIPT URL */
+
+const INTERN_API="https://script.google.com/macros/s/AKfycbzWcPbvtCTnfzyS3k0YWAkU9y_CCCeoqmi6ZB4O1AOcQ70y69eXouzj3l-xeyB3RbEW/exec";
+
+const API_URL = "https://script.google.com/macros/s/AKfycbxdnTEQtJp_Uvm_jcFftCDEt90PNOza9qOIGHGF7R4AVtt0yQr_nm0un3PFbO6Htyl5/exec";
+
+
+function loadLeads(){
+
+fetch(`${API_URL}?action=getLeads`)
+.then(res=>res.json())
+.then(data=>{
+
+const table=document.getElementById("leadTable");
+table.innerHTML="";
+
+let interested=0;
+let callLater=0;
+
+if(!data.length){
+table.innerHTML="<tr><td colspan='6'>No leads found</td></tr>";
+return;
 }
 
-/* 🔗 APPS SCRIPT URL */
-const API_URL = "https://script.google.com/macros/s/AKfycbzuldU_Yxt8CbGuihLQ10gKY-GFcMZkYjtU-ZDlSn4eejXeuu_EeyD7HsFeXsgnbxeo/exec";
+let leaderboard={};
+let dailyLeads={};   // ✅ FIX
+
+data.forEach(l=>{
+
+let date = l.date.split(" ")[0];
+
+if(!dailyLeads[date]){
+dailyLeads[date] = 0;
+}
+
+dailyLeads[date]++;
+
+if(l.interest==="Interested") interested++;
+if(l.interest==="Call Later") callLater++;
+
+let interestColor="#777";
+
+if(l.interest==="Interested") interestColor="#2e7d32";
+if(l.interest==="Call Later") interestColor="#ff9800";
+
+if(!leaderboard[l.intern_name]){
+leaderboard[l.intern_name]=0;
+}
+
+leaderboard[l.intern_name]++;
+
+table.innerHTML+=`
+<tr>
+<td>${l.intern_name}</td>
+<td>${l.business}</td>
+<td>${l.phone}</td>
+<td>${l.city}</td>
+
+<td>
+<span style="
+padding:4px 10px;
+border-radius:12px;
+background:${interestColor}20;
+color:${interestColor};
+font-weight:600;
+font-size:12px;
+">
+${l.interest}
+</span>
+</td>
+
+<td>${l.date}</td>
+</tr>
+`;
+
+});
+
+window.dailyLeadsData = dailyLeads;
+
+const leaderboardDiv=document.getElementById("leaderboardList");
+
+const sorted=Object.entries(leaderboard)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,5);
+
+leaderboardDiv.innerHTML="";
+
+sorted.forEach((item,index)=>{
+
+leaderboardDiv.innerHTML+=`
+<div class="leaderboard-item">
+<div>
+<span class="rank">#${index+1}</span>
+${item[0]}
+</div>
+<span>${item[1]} Leads</span>
+</div>
+`;
+
+});
+
+document.getElementById("leadSearch").addEventListener("input",function(){
+const value=this.value.toLowerCase();
+
+document.querySelectorAll("#leadTable tr").forEach(row=>{
+row.style.display=row.innerText.toLowerCase().includes(value) ? "" : "none";
+});
+});
+
+document.getElementById("totalLeads").innerText=data.length;
+document.getElementById("interestedCount").innerText=interested;
+document.getElementById("callLaterCount").innerText=callLater;
+
+});
+}
+
+
+
+loadLeads();
 
 /* LOAD INTERN LIST */
-fetch(`${API_URL}?action=getInterns`)
+fetch(`${INTERN_API}?action=getInterns`)
   .then(res => res.json())
   .then(data => {
+
+    document.getElementById("internCount").innerText=data.length;
+
     const list = document.getElementById("internList");
     list.innerHTML = "";
 
@@ -345,7 +683,7 @@ fetch(`${API_URL}?action=getInterns`)
 
 /* LOAD SINGLE INTERN */
 function loadIntern(id) {
-  fetch(`${API_URL}?action=getIntern&id=${id}`)
+  fetch(`${INTERN_API}?action=getIntern&id=${id}`)
     .then(res => res.json())
     .then(d => {
       document.getElementById("name").innerText = d.name;
@@ -368,7 +706,83 @@ function logout() {
   localStorage.clear();
   location.href = "login.html";
 }
+
+
+function openGraph(){
+
+document.getElementById("graphModal").style.display="block";
+
+setTimeout(function(){
+
+if(!window.dailyLeadsData){
+console.log("No lead data found");
+return;
+}
+
+const dates = Object.keys(window.dailyLeadsData);
+const counts = Object.values(window.dailyLeadsData);
+
+console.log("DATES:",dates);
+console.log("COUNTS:",counts);
+
+const canvas = document.getElementById("leadChart");
+const ctx = canvas.getContext("2d");
+
+if(window.leadChart && typeof window.leadChart.destroy === "function"){
+window.leadChart.destroy();
+}
+
+window.leadChart = new Chart(ctx,{
+type:"bar",
+data:{
+labels:dates,
+datasets:[{
+label:"Daily Leads",
+data:counts,
+backgroundColor:"#ff6a00",
+maxBarThickness:60
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true,
+ticks:{
+precision:0
+}
+}
+}
+}
+});
+
+},300);
+
+}
+
+function closeGraph(){
+document.getElementById("graphModal").style.display="none";
+}
+
+setInterval(loadLeads,30000);
 </script>
+
+
+<div id="graphModal" class="modal">
+
+<div class="modal-content">
+
+<span class="close" onclick="closeGraph()">✖</span>
+
+<h3>📈 Daily Lead Analytics</h3>
+
+<canvas id="leadChart" height="300"></canvas>
+
+
+</div>
+
+</div>
 
 </body>
 </html>
