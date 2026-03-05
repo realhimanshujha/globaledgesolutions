@@ -431,7 +431,7 @@
 
 <script>
 
-const FORMSPREE_URL = "https://formspree.io/f/mzzaonly";
+const FORMSPREE_URL = "https://script.google.com/macros/s/AKfycbzGWnl_mionnrY0dwl9YlwAr1INHcQgUszAQrwzVhh6zbe2glPZGIAnHUVulsdUB7oc/exec";
 
 const internId = localStorage.getItem("userId");
 const internName = localStorage.getItem("internName") || internId;
@@ -504,17 +504,44 @@ status.innerText="";
 document.getElementById("submitted_at").value=
 new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
 
-const formData=new FormData(document.getElementById("leadForm"));
+const data = {
+intern_id: internId,
+intern_name: internName,
+business_name: businessName.value,
+contact_person: contactPerson.value,
+phone: phone.value,
+city: city.value,
+interest_level: interest.value,
+notes: notes.value,
+submitted_at: new Date().toLocaleString()
+};
+
+const formData = new FormData();
+formData.append("intern_id", internId);
+formData.append("intern_name", internName);
+formData.append("business_name", businessName.value);
+formData.append("contact_person", contactPerson.value);
+formData.append("phone", phone.value);
+formData.append("city", city.value);
+formData.append("interest_level", interest.value);
+formData.append("notes", notes.value);
+formData.append("submitted_at", new Date().toLocaleString());
 
 fetch(FORMSPREE_URL,{
 method:"POST",
-body:formData,
-headers:{Accept:"application/json"}
+body: formData
 })
+.then(res => res.json())
+.then(res => {
 
-.then(res=>{
+if(res.status === "duplicate"){
 
-if(!res.ok) throw new Error();
+status.style.color="#d32f2f";
+status.innerText="Duplicate phone number already submitted.";
+
+return;
+
+}
 
 saveLeadLocally({phone:phoneVal,business,city:cityVal});
 
@@ -524,19 +551,16 @@ status.innerText="Lead submitted successfully ✅";
 document.getElementById("leadForm").reset();
 
 })
-
 .catch(()=>{
 
 status.style.color="#d32f2f";
 status.innerText="Submission failed.";
 
 })
-
 .finally(()=>{
 
 btn.disabled=false;
 btn.innerText="Submit Lead";
-
 isSubmitting=false;
 
 });
@@ -756,3 +780,4 @@ window.open(pdf, "_blank");
 
 </body>
 </html>
+
