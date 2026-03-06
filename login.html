@@ -173,12 +173,15 @@
       <h2>Welcome Back</h2>
       <span>Login to continue to your dashboard</span>
 
+      <form onsubmit="login(); return false;">
+
       <input type="text" id="userId" placeholder="User ID">
       <input type="password" id="password" placeholder="Password">
 
       <button onclick="login()">Sign In</button>
 
       <div class="error" id="err">Invalid login credentials</div>
+      </form>
     </div>
 
   </div>
