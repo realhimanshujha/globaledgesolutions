@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Login | Global Edge Solutions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <style>
     * {
@@ -60,6 +63,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      text-align: center;
+      align-items: center;
     }
 
     .login-brand img {
@@ -146,8 +151,10 @@
       .login-card {
         grid-template-columns: 1fr;
       }
+
       .login-brand {
-        display: none;
+        align-items: center;
+        text-align: center;
       }
     }
   </style>
@@ -160,7 +167,7 @@
 
     <!-- LEFT BRAND -->
     <div class="login-brand">
-      <img src="./logo.png" alt="Global Edge Solutions">
+      <a href="./index.html"><img src="./logo.png" alt="Global Edge Solutions"></a>
       <h1>Global Edge Solutions</h1>
       <p>
         Internal dashboard for employees, Interns & administrators.
@@ -188,6 +195,27 @@
 </div>
 
 <script>
+
+
+if(localStorage.getItem("loggedIn") === "true"){
+  window.location.replace("intern-portal.html");
+}
+
+document.getElementById("userId").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    document.getElementById("password").focus();
+  }
+});
+
+document.getElementById("password").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    login();
+  }
+});
+
+
 const API_URL = "https://script.google.com/macros/s/AKfycbz9akTGH03nASqw5_DrZKuCtdDKfAHCoYxMiWrungPs2zbJbgteItOXXEfeVr36zo_d/exec";
 
 function login() {
@@ -197,24 +225,29 @@ function login() {
   fetch(`${API_URL}?action=login&id=${id}&password=${password}`)
     .then(res => res.json())
     .then(data => {
+
       if (!data.success) {
-        alert("Invalid login");
+        document.getElementById("err").style.display = "block";
         return;
       }
 
       localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("loginTime", Date.now());
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("internName", data.name);
       localStorage.setItem("userRole", data.role);
       localStorage.setItem("joinDate", data.joinDate);
 
       if (data.role === "admin") {
-        location.href = "admin-dashboard.html";
+        window.location.replace("admin-dashboard.html");
       } else {
-        location.href = "intern-portal.html";
+        window.location.replace("intern-portal.html");
       }
+
     });
 }
+
+
 
 </script>
 
