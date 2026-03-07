@@ -307,6 +307,94 @@
     color:#ff6a00;
     }
 
+    .certificate-box{
+    margin-top:30px;
+    padding:20px;
+    border:2px solid #ff7a00;
+    border-radius:12px;
+    background:#fff7f0;
+    text-align:center;
+    }
+
+    #certificateBtn{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#ff7a00;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    }
+
+    #certificateBtn:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+    }
+
+    .certificate-card{
+    margin-top:30px;
+    padding:20px;
+    border-radius:12px;
+    border:2px solid #ff7a00;
+    background:#fff7f0;
+    }
+
+    .certificate-info{
+    margin-bottom:10px;
+    }
+
+    #certificateBtn{
+    padding:10px 18px;
+    background:#ff7a00;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    }
+
+    #certificateBtn:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+    }
+
+    .certificate-card{
+    margin-top:30px;
+    padding:20px;
+    border-radius:12px;
+    border:2px solid #ff7a00;
+    background:#fff7f0;
+    }
+
+    .certificate-preview{
+    margin:15px 0;
+    text-align:center;
+    }
+
+    .certificate-preview img{
+    width:100%;
+    max-width:500px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #certificateBtn{
+    padding:10px 18px;
+    background:#ff7a00;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    }
+
+    #certificateBtn:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+    }
+
     @media (max-width: 900px) {
       .form-grid {
         grid-template-columns: 1fr;
@@ -426,6 +514,32 @@
 
   <div id="futureTasks" class="task-list"></div>
 
+    <div class="certificate-card">
+
+      <h3>🎓 GlobalEdge Internship Certificate</h3>
+
+      <div class="certificate-preview">
+      <img id="certificatePreview" src="https://drive.google.com/thumbnail?id=1Hd91BVESLQNsHGjlTa9egptk4yoltYM8&sz=w1000"alt="Certificate Preview">
+      </div>
+
+      <div class="certificate-info">
+
+      <p><strong>Name:</strong> <span id="certName">-</span></p>
+
+      <p><strong>Certificate ID:</strong> <span id="certId">Locked</span></p>
+
+      <p id="certificateStatus">
+      Complete all 60 days to unlock your certificate
+      </p>
+
+      </div>
+
+      <button id="certificateBtn" disabled>
+      🔒 Certificate Locked
+      </button>
+
+    </div>
+
   </div>
 </div>
 
@@ -440,9 +554,14 @@ document.getElementById("iid").innerText = internId;
 document.getElementById("internNameTitle").innerText = `Welcome, ${internName} 👋`;
 document.getElementById("intern_id").value = internId;
 document.getElementById("intern_name").value = internName;
+document.getElementById("certName").innerText = internName;
 
 document.getElementById("avatarText").innerText =
 internName.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+
+
+
+/* ---------------- CERTIFICATE NUMBER GENERATOR ---------------- */
 
 
 
@@ -465,6 +584,7 @@ function saveLeadLocally(lead){
 const key=`leads_${internId}`;
 const leads=JSON.parse(localStorage.getItem(key))||[];
 
+
 leads.push(lead);
 
 localStorage.setItem(key,JSON.stringify(leads));
@@ -472,6 +592,8 @@ localStorage.setItem(key,JSON.stringify(leads));
 }
 
 let isSubmitting=false;
+
+
 
 function handleSubmit(event){
 
@@ -618,17 +740,46 @@ loadTasks();
 function loadTasks(){
 
 fetch(TASK_API)
-
 .then(res=>res.json())
-
 .then(data=>{
 
-const internDay=getInternDay();
-const totalDays=data.length;
+const internDay = getInternDay();
+const totalDays = data.length;
 
 let completedDays=Math.min(internDay,totalDays);
 
-const percent=Math.round((completedDays/totalDays)*100);
+const certificateBtn = document.getElementById("certificateBtn");
+const certificateStatus = document.getElementById("certificateStatus");
+
+if(completedDays >= 60){
+
+certificateBtn.disabled = false;
+certificateBtn.innerText = "Download Certificate";
+
+certificateStatus.innerText =
+"Congratulations! Your GlobalEdge certificate is ready.";
+
+/* Fetch certificate details immediately */
+
+fetch("https://script.google.com/macros/s/AKfycbznFd38ofJv50uQuyzIXbDqIcqjysQIDEsSCeCe5o8Ey9q6NwwdodCib_jZVY-FPySQ/exec?action=getCertificate&id="+internId)
+.then(res => res.json())
+.then(data => {
+
+if(data.certId){
+document.getElementById("certId").innerText = data.certId;
+}
+
+certificateBtn.onclick = () => {
+
+if(data.certificate){
+window.open(data.certificate,"_blank");
+}
+
+};
+
+});
+
+}
 
 
 
@@ -644,28 +795,20 @@ const taskDay=index+1;
 let className="day-circle";
 
 if(taskDay < internDay){
-
 className+=" day-complete";
-
 }
-
 else if(taskDay === internDay){
-
 className+=" day-today";
-
 }
-
 else{
-
 className+=" day-locked";
-
 }
 
 const unlocked = taskDay <= internDay && internDay > 0;
 
 timeline.innerHTML += `
 <div class="${className}" 
-     ${unlocked ? `onclick="openTask('${task.pdf}')"` : ""}>
+${unlocked ? `onclick="openTask('${task.pdf}')"` : ""}>
 ${taskDay}
 </div>
 `;
@@ -673,6 +816,20 @@ ${taskDay}
 });
 
 
+/* ---------- Day Auto Scroll ---------- */
+
+setTimeout(() => {
+
+const todayCircle = document.querySelector(".day-today");
+
+if(todayCircle){
+todayCircle.scrollIntoView({
+behavior: "smooth",
+inline: "center"
+});
+}
+
+}, 300);
 
 /* ---------- PROGRESS ---------- */
 
@@ -681,7 +838,6 @@ document.getElementById("progressText").innerText=
 
 document.getElementById("progressFill").style.width=
 percent+"%";
-
 
 
 /* ---------- TASK LIST ---------- */
@@ -717,7 +873,7 @@ ${unlocked
 </div>
 `;
 
-if(taskDay===internDay && internDay>0){
+if(taskDay===internDay && internDay>0 && !isWeekend){
 
 todayContainer.innerHTML=`
 <div class="today-card">
@@ -731,7 +887,7 @@ ${html}
 
 }
 
-else if(taskDay < internDay){
+else if(taskDay < internDay || (isWeekend && taskDay === internDay)){
 
 prevContainer.innerHTML+=html;
 
@@ -749,6 +905,23 @@ futureCount++;
 }
 
 });
+
+
+/* ---------- WEEKEND MESSAGE ---------- */
+
+if(isWeekend){
+
+todayContainer.innerHTML=`
+<div class="today-card">
+
+<h3>Weekend Break 🎉</h3>
+
+<p>No learning tasks today. New task unlocks Monday.</p>
+
+</div>
+`;
+
+}
 
 });
 
@@ -780,4 +953,3 @@ window.open(pdf, "_blank");
 
 </body>
 </html>
-
