@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>Intern Dashboard | Global Edge Solutions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <style>
     *, *::before, *::after {
@@ -529,7 +532,7 @@
       <p><strong>Certificate ID:</strong> <span id="certId">Locked</span></p>
 
       <p id="certificateStatus">
-      Complete all 60 days to unlock your certificate
+      Finish all 60 days to convince the system you deserve this certificate. 🎓✨
       </p>
 
       </div>
@@ -544,6 +547,20 @@
 </div>
 
 <script>
+
+function checkAuth() {
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.replace("login.html");
+  }
+}
+
+/* Run when page first loads */
+checkAuth();
+
+/* Run when user navigates back/forward (bfcache restore) */
+window.addEventListener("pageshow", function (event) {
+  checkAuth();
+});
 
 const FORMSPREE_URL = "https://script.google.com/macros/s/AKfycbzGWnl_mionnrY0dwl9YlwAr1INHcQgUszAQrwzVhh6zbe2glPZGIAnHUVulsdUB7oc/exec";
 
@@ -692,10 +709,8 @@ return false;
 }
 
 function logout(){
-
-localStorage.clear();
-location.href="login.html";
-
+  localStorage.clear();
+  window.location.replace("login.html");
 }
 
 
@@ -748,6 +763,11 @@ const totalDays = data.length;
 
 let completedDays=Math.min(internDay,totalDays);
 
+const percent = Math.round((completedDays / totalDays) * 100);
+
+const today = new Date().getDay();
+const isWeekend = (today === 0 || today === 6);
+
 const certificateBtn = document.getElementById("certificateBtn");
 const certificateStatus = document.getElementById("certificateStatus");
 
@@ -757,7 +777,7 @@ certificateBtn.disabled = false;
 certificateBtn.innerText = "Download Certificate";
 
 certificateStatus.innerText =
-"Congratulations! Your GlobalEdge certificate is ready.";
+"Preview only. The real certificate is waiting behind the Download button. 👀🎓⬇️";
 
 /* Fetch certificate details immediately */
 
@@ -907,11 +927,26 @@ futureCount++;
 });
 
 
-/* ---------- WEEKEND MESSAGE ---------- */
+/* ---------- COMPLETION OR WEEKEND MESSAGE ---------- */
 
-if(isWeekend){
+if(internDay > totalDays){
 
-todayContainer.innerHTML=`
+todayContainer.innerHTML = `
+<div class="today-card">
+
+<h3>🎉 Internship Completed</h3>
+
+<p>Congratulations! You have successfully completed the GlobalEdge Internship.</p>
+
+<p>Your certificate is now available below.</p>
+
+</div>
+`;
+
+}
+else if(isWeekend){
+
+todayContainer.innerHTML = `
 <div class="today-card">
 
 <h3>Weekend Break 🎉</h3>
