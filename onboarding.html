@@ -305,7 +305,7 @@ return
 
 const internId=localStorage.getItem("userId")
 
-fetch("YOUR_SCRIPT?action=complete&id="+internId)
+fetch("https://script.google.com/macros/s/AKfycbxF32Xv5g67N-zhwNtaCBzIHoTNVudnTWHZm1xzE8MxC2dbxbdXtwJ0YcdGFiQI3_bk/exec?action=complete&id="+internId)
 .then(()=>{
 
 window.location.replace("intern-portal.html")
