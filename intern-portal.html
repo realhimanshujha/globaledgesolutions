@@ -7,11 +7,6 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <script>
-  if (localStorage.getItem("loggedIn") !== "true") {
-    window.location.replace("login.html");
-  }
-  </script>
 
   <style>
     *, *::before, *::after {
@@ -551,7 +546,34 @@
   </div>
 </div>
 
+
 <script>
+
+
+const internId = localStorage.getItem("userId");
+
+if (!internId) {
+  window.location.replace("login.html");
+}
+
+fetch("https://script.google.com/macros/s/AKfycbxF32Xv5g67N-zhwNtaCBzIHoTNVudnTWHZm1xzE8MxC2dbxbdXtwJ0YcdGFiQI3_bk/exec?action=check&id=" + internId)
+.then(res => res.json())
+.then(data => {
+
+  if (data.onboarding !== true && data.onboarding !== "TRUE") {
+    window.location.replace("onboarding.html");
+  }
+
+});
+
+</script>
+
+
+
+<script>
+
+
+
 
 function checkAuth() {
   if (localStorage.getItem("loggedIn") !== "true") {
@@ -569,7 +591,6 @@ window.addEventListener("pageshow", function (event) {
 
 const FORMSPREE_URL = "https://script.google.com/macros/s/AKfycbzGWnl_mionnrY0dwl9YlwAr1INHcQgUszAQrwzVhh6zbe2glPZGIAnHUVulsdUB7oc/exec";
 
-const internId = localStorage.getItem("userId");
 const internName = localStorage.getItem("internName") || internId;
 
 document.getElementById("iid").innerText = internId;
@@ -714,10 +735,9 @@ return false;
 }
 
 function logout(){
-  localStorage.clear();
+  localStorage.removeItem("loggedIn");
   window.location.replace("login.html");
 }
-
 
 
 /* ---------------- INTERN DAY CALCULATION ---------------- */
