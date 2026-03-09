@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.replace("/login");
+  }
+  </script>
   <meta charset="UTF-8">
   <title>Intern Dashboard | Global Edge Solutions</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
