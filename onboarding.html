@@ -184,6 +184,18 @@ opacity:.9;
 
 <body>
 
+    
+<script>
+
+if(
+localStorage.getItem("loggedIn") !== "true" ||
+localStorage.getItem("userRole") !== "intern"
+){
+window.location.replace("login.html");
+}
+
+</script>
+    
 <header class="app-header">
 <div class="brand">
 <img src="./logo.png">
@@ -308,4 +320,5 @@ window.location.href="intern-portal.html"
 </body>
 
 </html>
+
 
