@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Internship Onboarding</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:"Segoe UI",system-ui,sans-serif;
+background:radial-gradient(circle at top left,#1a1a1a,#000);
+color:#fff;
+min-height:100vh;
+}
+
+body::before {
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%, rgba(255,106,0,0.18), transparent 40%),
+radial-gradient(circle at 80% 80%, rgba(255,152,0,0.15), transparent 40%);
+z-index:-1;
+}
+
+/* HEADER */
+
+.app-header{
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(14px);
+border-bottom:1px solid rgba(255,255,255,0.06);
+padding:14px 24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.brand img{
+height:36px;
+}
+
+.brand span{
+font-size:16px;
+font-weight:600;
+}
+
+/* PAGE CONTAINER */
+
+.app-shell{
+max-width:900px;
+margin:60px auto;
+padding:20px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(255,255,255,0.92);
+color:#111;
+border-radius:16px;
+padding:40px;
+margin:auto;
+max-width:720px;
+box-shadow:0 30px 70px rgba(0,0,0,0.4);
+}
+
+/* TEXT */
+
+h1{
+text-align:center;
+margin-top:0;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:30px;
+}
+
+/* PROGRESS */
+
+.progress{
+height:10px;
+background:#eee;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:30px;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(45deg,#ff6a00,#ff9800);
+transition:0.3s;
+}
+
+/* TASK */
+
+.task{
+background:#f7f7f7;
+padding:20px;
+border-radius:10px;
+margin-bottom:18px;
+border:1px solid #eee;
+transition:0.2s;
+}
+
+.task:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}
+
+.task-title{
+font-weight:600;
+margin-bottom:8px;
+}
+
+/* BUTTON */
+
+.btn{
+display:inline-block;
+padding:10px 18px;
+background:linear-gradient(45deg,#ff6a00,#ff9800);
+border-radius:8px;
+color:white;
+text-decoration:none;
+font-size:14px;
+font-weight:500;
+}
+
+.btn:hover{
+opacity:.9;
+}
+
+/* AGREEMENT */
+
+.rules{
+margin-top:20px;
+text-align:center;
+color:#333;
+}
+
+/* COMPLETE BUTTON */
+
+.complete-btn{
+margin-top:25px;
+width:100%;
+padding:14px;
+font-size:16px;
+background:linear-gradient(45deg,#ff6a00,#ff9800);
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+.complete-btn:disabled{
+background:#ddd;
+color:#888;
+cursor:not-allowed;
+opacity:0.8;
+filter:grayscale(40%);
+}
+
+.complete-btn:hover{
+opacity:.9;
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+<div class="brand">
+<img src="./logo.png">
+<span>Global Edge Solutions</span>
+</div>
+</header>
+
+<div class="app-shell">
+
+    <div class="card">
+
+        <h1>Welcome Intern 🚀</h1>
+        <p class="subtitle">
+        Complete onboarding to unlock your internship dashboard
+        </p>
+
+        <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="task">
+
+        <div class="task-title">
+        <span id="check1">⬜</span> Read Internship Guidelines
+        </div>
+
+        <a class="btn" href="/guideline.pdf" target="_blank" onclick="completeTask(1)">
+        Open Guidelines
+        </a>
+
+        </div>
+
+
+        <div class="task">
+
+        <div class="task-title">
+        <span id="check2">⬜</span> Submit Intern Details
+        </div>
+
+        <a class="btn"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSdy40oEsX30lUfO3DxKJgRL_ZqiR3SiKWexIc-m4VBXrPJ-Sg/viewform?usp=publish-editor"
+        target="_blank"
+        onclick="completeTask(2)">
+
+        Submit Details
+
+        </a>
+
+        </div>
+
+        <div class="rules">
+        <label>
+        <input type="checkbox" id="agree" onchange="checkReady()">
+        I agree to the internship rules
+        </label>
+        </div>
+
+        <button class="complete-btn" id="completeBtn" disabled onclick="finish()">🔒 Complete Onboarding</button>
+
+    </div>
+</div>
+
+<script>
+
+let completedTasks = {}
+
+function completeTask(task){
+
+if(completedTasks[task]) return
+
+completedTasks[task] = true
+
+document.getElementById("check"+task).innerHTML="✔"
+
+let completed = Object.keys(completedTasks).length
+let progress = (completed/2)*100
+
+document.getElementById("progressBar").style.width = progress + "%"
+
+checkReady()
+
+}
+
+function checkReady(){
+
+const tasksDone = Object.keys(completedTasks).length === 2
+const rulesAccepted = document.getElementById("agree").checked
+
+document.getElementById("completeBtn").disabled = !(tasksDone && rulesAccepted)
+
+if(tasksDone && rulesAccepted){
+document.getElementById("completeBtn").innerText="Complete Onboarding"
+}else{
+document.getElementById("completeBtn").innerText="🔒 Complete Onboarding"
+}
+
+}
+
+function finish(){
+
+const agree=document.getElementById("agree")
+
+if(!agree.checked){
+alert("Please agree to internship rules")
+return
+}
+
+const internId=localStorage.getItem("userId")
+
+fetch("https://script.google.com/macros/s/AKfycbxF32Xv5g67N-zhwNtaCBzIHoTNVudnTWHZm1xzE8MxC2dbxbdXtwJ0YcdGFiQI3_bk/exec?action=complete&id="+internId)
+.then(()=>{
+
+window.location.href="intern-portal.html"
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
